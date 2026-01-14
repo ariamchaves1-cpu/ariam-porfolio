@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { NgOptimizedImage } from '@angular/common';
 
 interface Project {
   category: string;
@@ -11,7 +12,10 @@ interface Project {
   selector: 'app-root',
   templateUrl: './app.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
+  imports: [NgOptimizedImage],
+  host: {
+    '(document:keydown.escape)': 'onKeydownHandler()'
+  }
 })
 export class AppComponent {
   // === PAGE CONTENT CONFIGURATION ===
@@ -34,6 +38,7 @@ export class AppComponent {
   // --- Footer Section ---
   footerTitle = signal('Get in Touch');
   footerEmail = signal('ariamchaves1@gmail.com');
+  // TODO: Update this link to your professional social media profile
   socialLink = signal('https://github.com/example');
 
   // --- Projects Data ---
@@ -196,6 +201,26 @@ export class AppComponent {
         'https://i.postimg.cc/YSfc1T4q/09aguarela.jpg',
         'https://i.postimg.cc/wBcKhnty/11.jpg'
       ]
+    },
+    {
+      category: 'Urban Development',
+      title: 'Sustainable Community Initiative',
+      description: 'A new initiative focused on creating resilient and livable urban spaces. This project integrates green technologies, community-centric planning, and innovative infrastructure to revitalize public squares and promote pedestrian-friendly design.',
+      images: [
+        'https://i.postimg.cc/zBZPLrG8/01-loteamento1.jpg',
+        'https://i.postimg.cc/qRVZtTv6/GLEBA-MT-01.jpg',
+        'https://i.postimg.cc/cHRkwbvc/GLEBA-MT-02.jpg',
+        'https://i.postimg.cc/50BKLRXL/GLEBA-MT-03.jpg',
+        'https://i.postimg.cc/V6qZnVSP/GLEBA-MT-04.jpg',
+        'https://i.postimg.cc/DZrpLMSj/GLEBA-MT-05.jpg',
+        'https://i.postimg.cc/L5mCT3P0/GLEBA-MT-06-copy.jpg',
+        'https://i.postimg.cc/qRsDy5tr/GLEBA-MT-07.jpg',
+        'https://i.postimg.cc/ZnJ7cx3B/GLEBA-MT-08.jpg',
+        'https://i.postimg.cc/2jxX5gRr/GLEBA-MT-MASTERPLAN-09.jpg',
+        'https://i.postimg.cc/ZnjfDvF3/GLEBA-MT-MASTERPLAN-10.jpg',
+        'https://i.postimg.cc/2yTHXLFL/loteamento2.jpg',
+        'https://i.postimg.cc/FzGPnkgx/loteamento4.jpg'
+      ]
     }
   ]);
   
@@ -211,6 +236,14 @@ export class AppComponent {
     }
     return null;
   });
+
+  onKeydownHandler(): void {
+    if (this.fullscreenImageIndex() !== null) {
+      this.closeFullscreen();
+    } else if (this.selectedProject() !== null) {
+      this.closeProjectModal();
+    }
+  }
 
   openProjectModal(project: Project): void {
     document.body.style.overflow = 'hidden';

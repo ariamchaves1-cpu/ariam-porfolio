@@ -1,7 +1,7 @@
 <main class="bg-gray-50 text-gray-800">
   <!-- Hero Section -->
-  <header class="relative text-white overflow-hidden">
-    <img [src]="heroImageUrl()" alt="Portfolio hero background" class="w-full h-auto block">
+  <header class="relative text-white overflow-hidden h-[75vh]">
+    <img [ngSrc]="heroImageUrl()" alt="Portfolio hero background" fill priority class="object-cover">
     <div class="absolute bottom-0 left-0 right-0 z-10 p-8 text-center">
       <h1 class="text-4xl md:text-5xl font-bold tracking-tight [text-shadow:_2px_2px_4px_rgb(0_0_0_/_60%)]">{{ heroName() }}</h1>
       <p class="mt-2 text-lg md:text-xl font-light text-gray-200 [text-shadow:_1px_1px_3px_rgb(0_0_0_/_60%)]">{{ heroTitle() }}</p>
@@ -17,8 +17,13 @@
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         @for (project of projects(); track project.title) {
-          <div (click)="openProjectModal(project)" class="group relative aspect-[4/3] flex items-end justify-start p-6 bg-gray-200 rounded-lg overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
-            <img [src]="project.images[0]" alt="{{ project.title }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+          <div 
+            role="button" 
+            tabindex="0"
+            (click)="openProjectModal(project)" 
+            (keydown.enter)="openProjectModal(project)"
+            class="group relative aspect-[4/3] flex items-end justify-start p-6 bg-gray-200 rounded-lg overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800">
+            <img [ngSrc]="project.images[0]" alt="{{ project.title }}" fill class="object-cover transition-transform duration-500 group-hover:scale-110">
             <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
             <div class="relative z-10 text-white">
               <h3 class="text-xl font-semibold">{{ project.category }}</h3>
@@ -34,7 +39,7 @@
     <div class="container mx-auto px-6 lg:px-8">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
         <div class="relative w-full h-full min-h-[400px] md:min-h-[600px] rounded-lg shadow-lg overflow-hidden">
-            <img [src]="visionImageUrl()" alt="A portrait of the architect" class="absolute inset-0 w-full h-full object-cover">
+            <img [ngSrc]="visionImageUrl()" alt="A portrait of the architect" fill class="object-cover">
         </div>
         <div class="text-left">
           <h2 class="text-sm font-semibold uppercase tracking-widest text-gray-500 mb-4">{{ visionTitle() }}</h2>
@@ -55,7 +60,7 @@
       <h3 class="text-2xl font-semibold mb-2">{{ footerTitle() }}</h3>
       <p class="text-gray-400 mb-6">{{ footerEmail() }}</p>
       <div class="flex justify-center space-x-6">
-        <a [href]="socialLink()" class="text-gray-400 hover:text-white transition-colors">
+        <a [href]="socialLink()" aria-label="Social media profile" class="text-gray-400 hover:text-white transition-colors">
           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.489 2.924 8.303 6.937 9.53.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.837.615-3.435-1.373-3.435-1.373-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.942.359.308.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z" clip-rule="evenodd" /></svg>
         </a>
       </div>
@@ -67,7 +72,7 @@
     <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in" (click)="closeProjectModal()">
       <div class="relative w-full max-w-5xl max-h-[90vh] bg-white rounded-lg shadow-2xl overflow-y-auto" (click)="$event.stopPropagation()">
         
-        <button (click)="closeProjectModal()" class="absolute top-4 right-4 z-20 text-gray-400 hover:text-gray-800 transition-colors">
+        <button (click)="closeProjectModal()" aria-label="Close project details" class="absolute top-4 right-4 z-20 text-gray-400 hover:text-gray-800 transition-colors">
           <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
 
@@ -78,8 +83,8 @@
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             @for (image of project.images; track image; let i = $index) {
-              <div class="group aspect-video rounded-md overflow-hidden bg-gray-100 cursor-pointer" (click)="openFullscreen(i)">
-                 <img [src]="image" alt="Project image for {{ project.title }}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+              <div class="group relative aspect-video rounded-md overflow-hidden bg-gray-100 cursor-pointer" (click)="openFullscreen(i)">
+                 <img [ngSrc]="image" alt="Project image for {{ project.title }}" fill class="object-cover transition-transform duration-300 group-hover:scale-110">
               </div>
             }
           </div>
@@ -94,20 +99,20 @@
     <div class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black animate-fade-in" (click)="closeFullscreen()">
       
       <!-- Close Button -->
-      <button (click)="closeFullscreen()" class="absolute top-4 right-4 z-[70] text-gray-300 hover:text-white transition-colors">
+      <button (click)="closeFullscreen()" aria-label="Close fullscreen image" class="absolute top-4 right-4 z-[70] text-gray-300 hover:text-white transition-colors">
         <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
       </button>
       
       <!-- Prev Button -->
-      <button (click)="$event.stopPropagation(); prevImage()" class="absolute left-4 md:left-8 z-[70] text-white bg-black/30 rounded-full p-2 hover:bg-black/50 transition-colors">
+      <button (click)="$event.stopPropagation(); prevImage()" aria-label="Previous image" class="absolute left-4 md:left-8 z-[70] text-white bg-black/30 rounded-full p-2 hover:bg-black/50 transition-colors">
         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
       </button>
 
       <!-- Image -->
-      <img (click)="$event.stopPropagation()" [src]="imageUrl" alt="Fullscreen project image" class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl">
+      <img (click)="$event.stopPropagation()" [ngSrc]="imageUrl" alt="Fullscreen project image" width="1600" height="900" class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl">
 
       <!-- Next Button -->
-      <button (click)="$event.stopPropagation(); nextImage()" class="absolute right-4 md:right-8 z-[70] text-white bg-black/30 rounded-full p-2 hover:bg-black/50 transition-colors">
+      <button (click)="$event.stopPropagation(); nextImage()" aria-label="Next image" class="absolute right-4 md:right-8 z-[70] text-white bg-black/30 rounded-full p-2 hover:bg-black/50 transition-colors">
         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
       </button>
 
